@@ -2,121 +2,459 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Uniwersytet Przykładowy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uniwersytet Przykładowy - Strona Główna</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
             color: #333;
+            background-color: #f8f9fa;
         }
 
-        header {
-            background-color: #2c3e50;
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
-            padding: 1em 0;
-            text-align: center;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
-
-            nav ul li {
-                margin: 0 15px;
-            }
-
-                nav ul li a {
-                    color: white;
-                    text-decoration: none;
-                }
 
         .container {
             max-width: 1200px;
-            margin: auto;
-            padding: 20px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        section {
-            margin-bottom: 40px;
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
         }
 
-        h1, h2 {
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+            .nav-links a {
+                color: white;
+                text-decoration: none;
+                transition: opacity 0.3s;
+            }
+
+                .nav-links a:hover {
+                    opacity: 0.8;
+                }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+                max-width: 700px;
+                margin: 0 auto 2rem;
+            }
+
+        .btn {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+            .btn:hover {
+                background-color: #c0392b;
+            }
+
+        .section {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
             color: #2c3e50;
         }
 
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 40px;
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        .gallery img {
-            width: 200px;
-            height: auto;
-            margin: 10px;
-            border-radius: 8px;
+        .course-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+            .course-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .course-card h3 {
+                color: #3498db;
+                margin-bottom: 0.5rem;
+            }
+
+        .features {
+            background-color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        /* Chat Styles */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chat-toggle {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .chat-box {
+            display: none;
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            width: 350px;
+            height: 400px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+            .chat-box.active {
+                display: flex;
+            }
+
+        .chat-header {
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            padding: 10px;
+            overflow-y: auto;
+            flex-grow: 1;
+            background-color: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background-color: #f1f1f1;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            background-color: white;
+        }
+
+            .chat-input input {
+                flex-grow: 1;
+                padding: 8px;
+                margin-right: 5px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            .chat-input button {
+                padding: 8px 15px;
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+                .chat-input button:hover {
+                    background-color: #2980b9;
+                }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .chat-box {
+                width: 300px;
+                height: 350px;
+            }
         }
     </style>
 </head>
 <body>
-
-    <header>
-        <h1>Uniwersytet Przykładowy</h1>
-        <nav>
-            <ul>
-                <li><a href="#o-nas">O nas</a></li>
-                <li><a href="#kierunki">Kierunki</a></li>
-                <li><a href="#galeria">Galeria</a></li>
-                <li><a href="#kontakt">Kontakt</a></li>
-            </ul>
-        </nav>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">Uniwersytet Przykładowy</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Strona główna</a></li>
+                    <li><a href="#courses">Kursy</a></li>
+                    <li><a href="#about">O nas</a></li>
+                    <li><a href="#contact">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <div class="container">
-        <section id="o-nas">
-            <h2>O nas</h2>
-            <p>Uniwersytet Przykładowy to nowoczesna uczelnia oferująca szeroki zakres studiów wyższych. Nasza misja to rozwój wiedzy i umiejętności studentów, wspieranie innowacji oraz promowanie nauki i kultury.</p>
-        </section>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Witaj na Uniwersytecie Przykładowym</h1>
+            <p>Oferujemy nowoczesne studia wyższe z najnowszymi technologiami i metodami naukowymi</p>
+            <a href="#courses" class="btn">Zobacz nasze kursy</a>
+        </div>
+    </section>
 
-        <section id="kierunki">
-            <h2>Kierunki studiów</h2>
-            <ul>
-                <li>Informatyka</li>
-                <li>Ekonomia</li>
-                <li>Psychologia</li>
-                <li>Architektura</li>
-                <li>Filologia</li>
-            </ul>
-        </section>
-
-        <section id="galeria">
-            <h2>Galeria</h2>
-            <div class="gallery">
-                <img src="https://via.placeholder.com/200" alt="Kampus 1">
-                <img src="https://via.placeholder.com/200" alt="Kampus 2">
-                <img src="https://via.placeholder.com/200" alt="Kampus 3">
+    <!-- Courses Section -->
+    <section class="section" id="courses">
+        <div class="container">
+            <h2 class="section-title">Nasze Kursy</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Informatyka</h3>
+                    <p>Programowanie, algorytmy, baz danych i systemy informatyczne</p>
+                </div>
+                <div class="course-card">
+                    <h3>Ekonomia</h3>
+                    <p>Finanse, marketing, zarządzanie i ekonomia międzynarodowa</p>
+                </div>
+                <div class="course-card">
+                    <h3>Inżynieria</h3>
+                    <p>Projektowanie, innowacje technologiczne i inżynieria systemów</p>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="kontakt">
-            <h2>Kontakt</h2>
-            <p>Adres: ul. Przykładowa 1, 00-001 Warszawa</p>
-            <p>Email: kontakt@uniprzklad.pl</p>
-            <p>Telefon: +48 123 456 789</p>
-        </section>
-    </div>
+    <!-- Features Section -->
+    <section class="section features">
+        <div class="container">
+            <h2 class="section-title">Dlaczego warto wybrać nas?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Doświadczenie</h3>
+                    <p>Współpracujemy z najlepszymi ekspertami w swoich dziedzinach</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Nowoczesne technologie</h3>
+                    <p>Korzystamy z najnowszych narzędzi i metod naukowych</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Wsparcie studentów</h3>
+                    <p>Indywidualne podejście do każdego studenta</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2025 Uniwersytet Przykładowy. Wszelkie prawa zastrzeżone.</p>
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <p>&copy; 2024 Uniwersytet Przykładowy. Wszystkie prawa zastrzeżone.</p>
+        </div>
     </footer>
 
+    <!-- Chat Widget -->
+    <div class="chat-container">
+        <button class="chat-toggle" id="chatToggle">💬</button>
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header">
+                <span>Asystent Uniwersytetu</span>
+                <button class="close-chat" id="closeChat">×</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    Witaj! Jestem twoim asystentem. Jak mogę Ci pomóc w sprawach dotyczących uczelni?
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Zadaj pytanie...">
+                <button id="sendButton">Wyślij</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chat functionality
+        const chatToggle = document.getElementById('chatToggle');
+        const chatBox = document.getElementById('chatBox');
+        const closeChat = document.getElementById('closeChat');
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Toggle chat visibility
+        chatToggle.addEventListener('click', () => {
+            chatBox.classList.toggle('active');
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatBox.classList.remove('active');
+        });
+
+        // Send message function
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            try {
+                // Send to backend proxy
+                const response = await fetch('http://localhost:3000/api/llm', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        prompt: message,
+                        model: 'llama3'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    addMessage('Przepraszam, wystąpił błąd. Spróbuj ponownie.', 'bot');
+                } else {
+                    addMessage(data.response || 'Nie otrzymano odpowiedzi', 'bot');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('Błąd połączenia z serwerem. Sprawdź czy serwer proxy działa.', 'bot');
+            }
+        }
+
+        // Add message to chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender + '-message');
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Auto-scroll to bottom of chat
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    </script>
 </body>
 </html>
