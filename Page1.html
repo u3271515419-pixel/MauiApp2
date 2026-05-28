@@ -1,0 +1,637 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiblioAndMe - Interaktywna Biblioteka z AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+            .logo i {
+                color: var(--accent);
+            }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+            nav a:hover {
+                background-color: rgba(255,255,255,0.1);
+            }
+
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+            .btn:hover {
+                background-color: #c0392b;
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+            .btn-secondary:hover {
+                background-color: #2980b9;
+            }
+
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+            .section-title h2 {
+                font-size: 2.5rem;
+                position: relative;
+                display: inline-block;
+                padding-bottom: 0.5rem;
+            }
+
+                .section-title h2::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 80px;
+                    height: 4px;
+                    background-color: var(--accent);
+                    border-radius: 2px;
+                }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+            .feature-card:hover {
+                transform: translateY(-10px);
+            }
+
+            .feature-card i {
+                font-size: 3rem;
+                color: var(--secondary);
+                margin-bottom: 1rem;
+            }
+
+            .feature-card h3 {
+                margin-bottom: 1rem;
+                color: var(--primary);
+            }
+
+        .library-search {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+            .search-box input {
+                flex: 1;
+                padding: 1rem;
+                border: 1px solid #ddd;
+                border-radius: 50px;
+                font-size: 1rem;
+            }
+
+            .search-box button {
+                background-color: var(--secondary);
+                color: white;
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 50px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: all 0.3s ease;
+            }
+
+                .search-box button:hover {
+                    background-color: #2980b9;
+                }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+            .book-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            }
+
+        .book-cover {
+            height: 300px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-size: 3rem;
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+            .book-info h3 {
+                margin-bottom: 0.5rem;
+                color: var(--primary);
+            }
+
+            .book-info p {
+                color: #777;
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+
+        .ai-assistant {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .ai-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .ai-input {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+            .ai-input input {
+                flex: 1;
+                padding: 1rem;
+                border: none;
+                border-radius: 50px;
+                font-size: 1rem;
+                background: rgba(255,255,255,0.9);
+            }
+
+            .ai-input button {
+                background-color: var(--accent);
+                color: white;
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 50px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: all 0.3s ease;
+            }
+
+                .ai-input button:hover {
+                    background-color: #c0392b;
+                }
+
+        .ai-response {
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            padding: 1.5rem;
+            min-height: 150px;
+            text-align: left;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+            .footer-column h3::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 50px;
+                height: 3px;
+                background-color: var(--accent);
+            }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+            .footer-column ul li {
+                margin-bottom: 0.8rem;
+            }
+
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+            .footer-column a:hover {
+                color: var(--accent);
+                padding-left: 5px;
+            }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+            .social-icons a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                background-color: rgba(255,255,255,0.1);
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+
+                .social-icons a:hover {
+                    background-color: var(--accent);
+                    transform: translateY(-3px);
+                }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>BiblioAndMe</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#features">Funkcje</a></li>
+                    <li><a href="#library">Biblioteka</a></li>
+                    <li><a href="#ai">AI Asystent</a></li>
+                    <li><a href="#about">O nas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Twoja osobista biblioteka z AI</h1>
+            <p>Współpracuj z inteligentnym asystentem, który pomoże Ci zrozumieć książki i rozwijać umiejętności</p>
+            <a href="#ai" class="btn">Rozpocznij naukę</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="section-title">
+            <h2>Nasze Funkcje</h2>
+        </div>
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-robot"></i>
+                <h3>AI Asystent</h3>
+                <p>Zadawaj pytania o treści książek i otrzymuj szczegółowe odpowiedzi oraz podsumowania.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-book"></i>
+                <h3>Biblioteka Cyfrowa</h3>
+                <p>Dostęp do tysięcy książek w katalogu z możliwością wyszukiwania i filtrowania.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Ćwiczenia</h3>
+                <p>Testy zrozumienia tekstu i quizy do nauki i powtórek.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users"></i>
+                <h3>Społeczność</h3>
+                <p>Dyskusje o książkach i współpraca z innymi uczestnikami.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Library Section -->
+    <section id="library">
+        <div class="section-title">
+            <h2>Nasza Biblioteka</h2>
+        </div>
+        <div class="library-search">
+            <div class="search-box">
+                <input type="text" placeholder="Wyszukaj książkę...">
+                <button><i class="fas fa-search"></i> Szukaj</button>
+            </div>
+        </div>
+        <div class="book-grid">
+            <div class="book-card">
+                <div class="book-cover">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="book-info">
+                    <h3>Harry Potter</h3>
+                    <p>J.K. Rowling</p>
+                    <p>Przygody magii i przyjaźni</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-cover">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="book-info">
+                    <h3>1984</h3>
+                    <p>George Orwell</p>
+                    <p>Romans społeczny i polityczny</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-cover">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="book-info">
+                    <h3>Władca Pierścieni</h3>
+                    <p>J.R.R. Tolkien</p>
+                    <p>Epiczna fantasy o przygodach</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-cover">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="book-info">
+                    <h3>Organy</h3>
+                    <p>Bolesław Prus</p>
+                    <p>Romans społeczny i polityczny</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Assistant Section -->
+    <section id="ai" class="ai-assistant">
+        <div class="ai-container">
+            <h2>AI Asystent do Książek</h2>
+            <p>Wpisz swoje pytanie o książkę i otrzymaj odpowiedź od inteligentnego asystenta</p>
+            <div class="ai-input">
+                <input type="text" id="questionInput" placeholder="Na przykład: Czym jest motyw w powieści 'Zbuntowana'?">
+                <button onclick="askQuestion()">Zapytaj</button>
+            </div>
+            <div class="ai-response" id="responseArea">
+                <p>Wpisz pytanie o książkę i kliknij "Zapytaj", aby uzyskać odpowiedź od naszego AI.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>BiblioAndMe</h3>
+                <p>Interaktywna biblioteka dla uczniów i studentów z wykorzystaniem AI.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Szybkie linki</h3>
+                <ul>
+                    <li><a href="#features">Funkcje</a></li>
+                    <li><a href="#library">Biblioteka</a></li>
+                    <li><a href="#ai">AI Asystent</a></li>
+                    <li><a href="#">Kontakt</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> kontakt@biblioandme.pl</li>
+                    <li><i class="fas fa-phone"></i> +48 123 456 789</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Warszawa, Polska</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 BiblioAndMe. Wszystkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <script>
+        function askQuestion() {
+            const question = document.getElementById('questionInput').value;
+            const responseArea = document.getElementById('responseArea');
+
+            if (!question.trim()) {
+                responseArea.innerHTML = '<p>Proszę wpisać pytanie o książkę.</p>';
+                return;
+            }
+
+            // Symulacja odpowiedzi AI
+            responseArea.innerHTML = `
+                <p><strong>Pytanie:</strong> ${question}</p>
+                <p><strong>Odpowiedź:</strong></p>
+                <p>To bardzo interesujące pytanie! W zależności od kontekstu, odpowiedź może się różnić.
+                Dla przykładu, jeśli chodzi o motyw w powieści "Zbuntowana", to może to być walka o wolność i tożsamość,
+                przedstawiona przez postacie z różnymi doświadczeniami.</p>
+                <p>Aby uzyskać dokładniejszą analizę, proszę podać więcej szczegółów lub tytuł książki.</p>
+            `;
+        }
+
+        // Obsługa przycisku wyszukiwania
+        document.querySelector('.search-box button').addEventListener('click', function() {
+            const searchInput = document.querySelector('.search-box input');
+            if (searchInput.value.trim()) {
+                alert(`Wyszukano: ${searchInput.value}`);
+                searchInput.value = '';
+            }
+        });
+
+        // Obsługa klawisza Enter w polu wyszukiwania
+        document.querySelector('.search-box input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchInput = document.querySelector('.search-box input');
+                if (searchInput.value.trim()) {
+                    alert(`Wyszukano: ${searchInput.value}`);
+                    searchInput.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
